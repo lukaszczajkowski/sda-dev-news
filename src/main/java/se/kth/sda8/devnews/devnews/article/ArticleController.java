@@ -25,9 +25,9 @@ public class ArticleController {
             return articleService.getAll(sort);
         }
         if(topicId != null){
-            return articleService.getAllByTopicId(topicId);
+            return articleService.getAllByTopicsId(topicId);
         }
-            return articleService.getAll();
+        return articleService.getAll();
 
     }
 

@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import se.kth.sda8.devnews.devnews.topic.Topic;
 
 import javax.persistence.*;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Entity
 @Table(name = "article")
@@ -23,15 +26,14 @@ public class Article {
     @Column(name = "authorName")
     private String authorName;
 
-    @ManyToOne
-    private Topic topic;
+    @ManyToMany
+    private List<Topic> topics;
 
-    public Article(Long id, String title, String body, String authorName, Topic topic) {
+    public Article(Long id, String title, String body, String authorName, Topic... topics) {
         this.id = id;
         this.title = title;
         this.body = body;
         this.authorName = authorName;
-        this.topic = topic;
     }
 
     public Article() {
@@ -70,11 +72,12 @@ public class Article {
         this.authorName = authorName;
     }
 
-    public Topic getTopic() {
-        return topic;
+    public List<Topic> getTopics() {
+        return topics;
     }
 
-    public void setTopic(Topic topic) {
-        this.topic = topic;
+    public void setTopics(List<Topic> topics) {
+        this.topics = topics;
     }
+
 }

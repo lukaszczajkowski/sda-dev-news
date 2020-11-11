@@ -1,8 +1,6 @@
 package se.kth.sda8.devnews.devnews.topic;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import se.kth.sda8.devnews.devnews.article.Article;
 
 import javax.persistence.*;
@@ -21,7 +19,7 @@ public class Topic {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "topic")
+    @ManyToMany(mappedBy = "topics")
     private List<Article> articles;
 
     public Topic(Long id, String name) {

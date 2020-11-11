@@ -41,11 +41,11 @@ public class ArticleService {
         return repository.save(updatedArticle);
     }
 
-    public List<Article> getAllByTopicId(Long topicId) {
-        return repository.findAllByTopicId(topicId);
-    }
-
     public List<Article> getAll() {
         return repository.findAll();
+    }
+
+    public List<Article> getAllByTopicsId(Long topicId) {
+        return repository.findAllByTopics_id(topicId);
     }
 }
