@@ -1,5 +1,8 @@
 package se.kth.sda8.devnews.devnews.topic;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import se.kth.sda8.devnews.devnews.article.Article;
 
 import javax.persistence.*;
@@ -7,6 +10,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "topic")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "contacts"})
 public class Topic {
 
     @Column(name = "id")
@@ -17,7 +21,7 @@ public class Topic {
     @Column(name = "name")
     private String name;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "topic")
     private List<Article> article;
 
     public Topic(Long id, String name) {
@@ -45,6 +49,7 @@ public class Topic {
         this.name = name;
     }
 
+    @JsonManagedReference
     public List<Article> getArticle() {
         return article;
     }

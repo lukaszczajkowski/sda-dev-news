@@ -1,5 +1,6 @@
 package se.kth.sda8.devnews.devnews.article;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import se.kth.sda8.devnews.devnews.topic.Topic;
 
 import javax.persistence.*;
@@ -69,6 +70,7 @@ public class Article {
         this.authorName = authorName;
     }
 
+    @JsonBackReference
     public Topic getTopic() {
         return topic;
     }
