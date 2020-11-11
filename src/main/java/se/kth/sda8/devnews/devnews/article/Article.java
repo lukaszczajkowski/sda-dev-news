@@ -70,7 +70,6 @@ public class Article {
         this.authorName = authorName;
     }
 
-    @JsonBackReference
     public Topic getTopic() {
         return topic;
     }

@@ -18,13 +18,16 @@ public class ArticleController {
     }
 
     @GetMapping("")
-    public List<Article> getAllArticles(@RequestParam(required = false) String sort) {
-        if(sort == null) {
+    public List<Article> getAllArticles(@RequestParam(required = false) String sort,
+                                        @RequestParam(required = false) Long topicId) {
+        if(sort != null) {
             sort = "author";
             return articleService.getAll(sort);
-        } else {
-            return articleService.getAll(sort);
         }
+        if(topicId != null){
+            return articleService.getAllByTopicId(topicId);
+        }
+            return articleService.getAll();
 
     }
 

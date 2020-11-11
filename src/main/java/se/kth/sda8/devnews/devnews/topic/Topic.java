@@ -22,7 +22,7 @@ public class Topic {
     private String name;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "topic")
-    private List<Article> article;
+    private List<Article> articles;
 
     public Topic(Long id, String name) {
         this.id = id;
@@ -49,12 +49,4 @@ public class Topic {
         this.name = name;
     }
 
-    @JsonManagedReference
-    public List<Article> getArticle() {
-        return article;
-    }
-
-    public void setArticle(List<Article> article) {
-        this.article = article;
-    }
 }

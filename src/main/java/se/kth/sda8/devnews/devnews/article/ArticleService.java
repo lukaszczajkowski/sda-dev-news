@@ -40,4 +40,12 @@ public class ArticleService {
     public Article update(Article updatedArticle) {
         return repository.save(updatedArticle);
     }
+
+    public List<Article> getAllByTopicId(Long topicId) {
+        return repository.findAllByTopicId(topicId);
+    }
+
+    public List<Article> getAll() {
+        return repository.findAll();
+    }
 }

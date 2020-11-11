@@ -36,6 +36,6 @@ public class TopicService {
     }
 
     public List<Topic> getAllByArticleId(Long articleId) {
-        return topicRepository.findAllByArticleId(articleId);
+        return topicRepository.findAllByArticles_id(articleId);
     }
 }
