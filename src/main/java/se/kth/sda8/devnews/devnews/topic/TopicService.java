@@ -36,6 +36,7 @@ public class TopicService {
     }
 
     public List<Topic> getAllByArticleId(Long articleId) {
+        System.out.println("Article id = " + articleId);
         return topicRepository.findAllByArticles_id(articleId);
     }
 }

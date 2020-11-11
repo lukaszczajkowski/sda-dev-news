@@ -29,7 +29,7 @@ public class Article {
     @ManyToMany
     private List<Topic> topics;
 
-    public Article(Long id, String title, String body, String authorName, Topic... topics) {
+    public Article(Long id, String title, String body, String authorName) {
         this.id = id;
         this.title = title;
         this.body = body;

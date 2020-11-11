@@ -21,9 +21,7 @@ public class TopicController {
                                           Long articleId) {
         if(articleId == null) {
             return topicService.getAll();
-        } else {
-            return topicService.getAllByArticleId(articleId);
-        }
+        } else return topicService.getAllByArticleId(articleId);
     }
 
     @GetMapping("/{id}")
