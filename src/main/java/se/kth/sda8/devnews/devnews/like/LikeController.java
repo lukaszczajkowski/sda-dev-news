@@ -15,8 +15,12 @@ public class LikeController {
     }
 
     @GetMapping("")
-    public List<Like> getAll() {
-        return likeService.getAll();
+    public List<Like> getAll(@RequestParam(required = false) Long articleId) {
+        if(articleId == null) {
+            return likeService.getAll();
+        } else {
+            return likeService.getAllByArticleId(articleId);
+        }
     }
 
     @GetMapping("/{id}")

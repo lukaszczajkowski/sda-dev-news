@@ -17,12 +17,13 @@ public class Like {
     @Column(name = "name")
     private String name;
 
-    @ManyToMany(mappedBy = "likes")
-    private List<Article> articles;
+    @ManyToOne
+    private Article article;
 
-    public Like(Long id, String name) {
+    public Like(Long id, String name, Article article) {
         this.id = id;
         this.name = name;
+        this.article = article;
     }
 
     public Like() {
@@ -42,5 +43,13 @@ public class Like {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Article getArticle() {
+        return article;
+    }
+
+    public void setArticle(Article article) {
+        this.article = article;
     }
 }

@@ -27,9 +27,8 @@ public class Article {
     @ManyToMany
     private List<Topic> topics;
 
-    @ManyToMany
+    @OneToMany(mappedBy = "article")
     private List<Like> likes;
-
 
     public Article(Long id, String title, String body, String authorName) {
         this.id = id;
@@ -92,11 +91,4 @@ public class Article {
         System.out.println(this.topics.remove(topic));
     }
 
-    public List<Like> getLikes() {
-        return likes;
-    }
-
-    public void setLikes(List<Like> likes) {
-        this.likes = likes;
-    }
 }

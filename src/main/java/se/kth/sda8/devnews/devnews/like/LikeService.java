@@ -36,4 +36,8 @@ public class LikeService {
         repository.deleteById(id);
     }
 
+    public List<Like> getAllByArticleId(Long articleId) {
+        System.out.println("Article id: " + articleId);
+        return repository.findAllByArticleId(articleId);
+    }
 }
