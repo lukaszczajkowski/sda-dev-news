@@ -3,6 +3,7 @@ package se.kth.sda8.devnews.devnews.article;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import se.kth.sda8.devnews.devnews.topic.Topic;
 
 import javax.persistence.PostUpdate;
 import java.util.List;
@@ -50,5 +51,15 @@ public class ArticleController {
     @PutMapping("")
     public Article update(@RequestBody Article updatedArticle) {
         return articleService.update(updatedArticle);
+    }
+
+    @PutMapping("{id}/attach_topic")
+    public Article attachTopic(@PathVariable Long id, @RequestBody Topic topic) {
+        return articleService.addTopic(id, topic);
+    }
+
+    @DeleteMapping("{id}/remove_topic")
+    public void removeTopic(@PathVariable Long id, @RequestBody Topic topic) {
+        articleService.removeTopic(id, topic);
     }
 }

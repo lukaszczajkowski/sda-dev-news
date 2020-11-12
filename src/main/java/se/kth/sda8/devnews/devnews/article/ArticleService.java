@@ -1,6 +1,9 @@
 package se.kth.sda8.devnews.devnews.article;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+import se.kth.sda8.devnews.devnews.topic.Topic;
 
 import java.util.Comparator;
 import java.util.List;
@@ -47,5 +50,31 @@ public class ArticleService {
 
     public List<Article> getAllByTopicsId(Long topicId) {
         return repository.findAllByTopics_id(topicId);
+    }
+
+    public Article addTopic(Long id, Topic topic) {
+
+        return repository.save(repository.findById(id).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND)
+        ).addTopic(topic));
+
+    }
+
+    public void removeTopic(Long id, Topic topic) {
+       Article article;
+       article = repository.findById(id).orElseThrow(
+               () -> new ResponseStatusException(HttpStatus.NOT_FOUND)
+       );
+
+       article.deleteTopic(topic);
+       repository.save(article);
+    }
+
+    public void removeTopic(Topic topic) {
+        Long topicId = topic.getId();
+        List<Article> articlesContainTopic = repository.findAllByTopics_id(topicId);
+        articlesContainTopic.forEach(a -> {
+            a.deleteTopic(topic);
+        });
     }
 }

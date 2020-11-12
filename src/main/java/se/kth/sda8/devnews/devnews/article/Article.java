@@ -1,12 +1,10 @@
 package se.kth.sda8.devnews.devnews.article;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import se.kth.sda8.devnews.devnews.like.Like;
 import se.kth.sda8.devnews.devnews.topic.Topic;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Entity
 @Table(name = "article")
@@ -28,6 +26,10 @@ public class Article {
 
     @ManyToMany
     private List<Topic> topics;
+
+    @ManyToMany
+    private List<Like> likes;
+
 
     public Article(Long id, String title, String body, String authorName) {
         this.id = id;
@@ -80,4 +82,21 @@ public class Article {
         this.topics = topics;
     }
 
+    public Article addTopic(Topic topic) {
+        this.topics.add(topic);
+        return this;
+    }
+
+    public void deleteTopic(Topic topic) {
+        System.out.println("Deleting " + topic.getId());
+        System.out.println(this.topics.remove(topic));
+    }
+
+    public List<Like> getLikes() {
+        return likes;
+    }
+
+    public void setLikes(List<Like> likes) {
+        this.likes = likes;
+    }
 }

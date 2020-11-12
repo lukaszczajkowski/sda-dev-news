@@ -5,6 +5,7 @@ import se.kth.sda8.devnews.devnews.article.Article;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "topic")
@@ -47,4 +48,21 @@ public class Topic {
         this.name = name;
     }
 
+    public void addArticle (Article article) {
+        articles.add(article);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Topic topic = (Topic) o;
+        return Objects.equals(id, topic.id) &&
+                Objects.equals(name, topic.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, articles);
+    }
 }

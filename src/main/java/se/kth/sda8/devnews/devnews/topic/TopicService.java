@@ -1,6 +1,9 @@
 package se.kth.sda8.devnews.devnews.topic;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+import se.kth.sda8.devnews.devnews.article.ArticleService;
 
 import java.util.List;
 import java.util.Optional;
@@ -9,9 +12,11 @@ import java.util.Optional;
 public class TopicService {
 
     private TopicRepository topicRepository;
+    private ArticleService articleService;
 
-    public TopicService(TopicRepository topicRepository) {
+    public TopicService(TopicRepository topicRepository, ArticleService articleService) {
         this.topicRepository = topicRepository;
+        this.articleService = articleService;
     }
 
     public List<Topic> getAll() {
@@ -32,11 +37,13 @@ public class TopicService {
     }
 
     public void delete(Long id) {
+        Topic topic = topicRepository.findById(id)
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        articleService.removeTopic(topic);
         topicRepository.deleteById(id);
     }
 
     public List<Topic> getAllByArticleId(Long articleId) {
-        System.out.println("Article id = " + articleId);
         return topicRepository.findAllByArticles_id(articleId);
     }
 }
