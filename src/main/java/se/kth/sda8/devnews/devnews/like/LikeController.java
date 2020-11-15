@@ -42,4 +42,5 @@ public class LikeController {
     public void delete(@PathVariable Long id) {
         likeService.delete(id);
     }
+
 }

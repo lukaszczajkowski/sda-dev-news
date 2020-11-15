@@ -3,6 +3,9 @@ package se.kth.sda8.devnews.devnews.article;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import se.kth.sda8.devnews.devnews.like.Like;
+import se.kth.sda8.devnews.devnews.like.LikeController;
+import se.kth.sda8.devnews.devnews.like.LikeService;
 import se.kth.sda8.devnews.devnews.topic.Topic;
 
 import javax.persistence.PostUpdate;
@@ -13,9 +16,11 @@ import java.util.List;
 public class ArticleController {
 
     private final ArticleService articleService;
+    private final LikeService likeService;
 
-    public ArticleController(ArticleService articleService) {
+    public ArticleController(ArticleService articleService, LikeService likeService) {
         this.articleService = articleService;
+        this.likeService = likeService;
     }
 
     @GetMapping("")
@@ -61,5 +66,29 @@ public class ArticleController {
     @DeleteMapping("{id}/remove_topic")
     public void removeTopic(@PathVariable Long id, @RequestBody Topic topic) {
         articleService.removeTopic(id, topic);
+    }
+
+    @GetMapping("{id}/likes")
+    public Long getLikesCount (@PathVariable Long id) {
+        return articleService.getLikesCount(id);
+    }
+
+    //post or put?
+    @PostMapping("{id}/add_like")
+    public Article addLike(@PathVariable Long id, @RequestBody Like like) {
+        likeService.create(like);
+        return articleService.addLike(id, like);
+    }
+
+    /**
+     * Takes an ID of an article that we want to remove the like from and
+     * the id of this like and removes it not only from the list of likes
+     * of the article, but also from the likes repository
+     * @param id - ID of the article that we want to delete the like from
+     * @param like - only ID of the like required
+     */
+    @DeleteMapping("{id}/remove_like")
+    public void deleteLike(@PathVariable Long id, @RequestBody Like like) {
+        likeService.delete(like.getId());
     }
 }
