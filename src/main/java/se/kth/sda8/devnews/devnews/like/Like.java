@@ -1,6 +1,6 @@
-package se.kth.sda8.devnews.devnews.topic;
+package se.kth.sda8.devnews.devnews.like;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.ManyToAny;
 import se.kth.sda8.devnews.devnews.article.Article;
 
 import javax.persistence.*;
@@ -8,11 +8,9 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "topic")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "contacts"})
-public class Topic {
+@Table(name = "reactions")
+public class Like {
 
-    @Column(name = "id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,16 +18,21 @@ public class Topic {
     @Column(name = "name")
     private String name;
 
-    @ManyToMany(mappedBy = "topics")
-    private List<Article> articles;
+    @ManyToOne
+    private Article article;
 
-    public Topic(Long id, String name) {
+    public Like(Long id, String name, Article article) {
+        this.id = id;
+        this.name = name;
+        this.article = article;
+    }
+
+    public Like (Long id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public Topic() {
-
+    public Like() {
     }
 
     public Long getId() {
@@ -48,21 +51,27 @@ public class Topic {
         this.name = name;
     }
 
-    public void addArticle (Article article) {
-        articles.add(article);
+    public Article getArticle() {
+        return article;
     }
+
+
+    public void setArticle(Article article) {
+        this.article = article;
+    }
+
+
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Topic topic = (Topic) o;
-        return Objects.equals(id, topic.id) &&
-                Objects.equals(name, topic.name);
+        Like like = (Like) o;
+        return Objects.equals(id, like.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, articles);
+        return Objects.hash(id, name, article);
     }
 }

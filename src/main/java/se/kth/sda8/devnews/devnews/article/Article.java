@@ -1,9 +1,10 @@
 package se.kth.sda8.devnews.devnews.article;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import se.kth.sda8.devnews.devnews.like.Like;
 import se.kth.sda8.devnews.devnews.topic.Topic;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "article")
@@ -23,15 +24,18 @@ public class Article {
     @Column(name = "authorName")
     private String authorName;
 
-    @ManyToOne
-    private Topic topic;
+    @ManyToMany
+    private List<Topic> topics;
 
-    public Article(Long id, String title, String body, String authorName, Topic topic) {
+    @OneToMany(mappedBy = "article")
+    private List<Like> likes;
+
+
+    public Article(Long id, String title, String body, String authorName) {
         this.id = id;
         this.title = title;
         this.body = body;
         this.authorName = authorName;
-        this.topic = topic;
     }
 
     public Article() {
@@ -70,12 +74,43 @@ public class Article {
         this.authorName = authorName;
     }
 
-    @JsonBackReference
-    public Topic getTopic() {
-        return topic;
+    public List<Topic> getTopics() {
+        return topics;
     }
 
-    public void setTopic(Topic topic) {
-        this.topic = topic;
+    public void setTopics(List<Topic> topics) {
+        this.topics = topics;
     }
+
+    public Article addTopic(Topic topic) {
+        this.topics.add(topic);
+        return this;
+    }
+
+    public void deleteTopic(Topic topic) {
+        System.out.println("Deleting " + topic.getId());
+        System.out.println(this.topics.remove(topic));
+    }
+
+    /*
+    public List<Like> getLikes() {
+        return likes;
+    }
+
+    public void setLikes(List<Like> likes) {
+        this.likes = likes;
+    }
+
+     */
+
+    public Article addLike(Like like) {
+        like.setArticle(this);
+        this.likes.add(like);
+        return this;
+    }
+
+    public void removeLike(Like like){
+        this.likes.remove(like);
+    }
+
 }
